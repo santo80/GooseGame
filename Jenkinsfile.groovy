@@ -1,21 +1,21 @@
-node{
-    def mvnHome = tool "Maven"
-    stage('Clone'){
+node {
+    def mavenHome = tool "Maven"
+    stage ('clone') {
         checkout scm
-
     }
-    stage('Unit Test'){
-        sh "mvn clean test"
-        sh "ls -l target"
+    stage ('unit test') {
+        sh 'mvn clean test'
+        sh 'ls -l target'
         junit 'target/surefire-reports/**/*.xml'
-        def miaVar= "ecco la mia var"
-        echo 'visualizzo $miaVar'
-        echo "visualizzo  $miaVar"
+        def betty = "it417"
+        echo 'ciao $betty'
+        echo "ciao $betty"
     }
-    stage('Integration Test'){
-       echo "qui dovrei lanciare i test di Integrazione"
+    stage ('integration test') {
+        echo 'Ciao! Adesso dovrei lanciare i test di integrazione'
     }
-    stage('Results'){
-
+    stage ('build artefact') {
+        sh 'mvn package'
+        archiveArtifacts artifacts: 'target/GooseGame-1.0-SNAPSHOT-jar-with-dependencies.jar', fingerprint: true
     }
 }
